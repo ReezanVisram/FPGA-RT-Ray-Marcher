@@ -1,4 +1,8 @@
-.clangd
-
 /obj_dir
+/.cache
+/build
+
+.clangd
+compile_commands.json
+
 
