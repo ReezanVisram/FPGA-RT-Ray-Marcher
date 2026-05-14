@@ -1,6 +1,6 @@
 `default_nettype none
 
-// Fixed point multiplier 
+// Fixed point multiplier
 // The INT_WIDTH includes 1 sign bit
 module fixed_point_mul #(
   parameter int INT_WIDTH  = 16,

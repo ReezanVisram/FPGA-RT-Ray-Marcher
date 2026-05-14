@@ -20,14 +20,16 @@ int32_t ref_mul(int32_t a, int32_t b) {
   return sat32(temp >> FRAC_WIDTH);
 }
 
-class FixedPointMulTest : public ::testing::Test {
+class FixedPointMulTB : public ::testing::Test {
 protected:
   VerilatedContext ctx;
   Vfixed_point_mul dut{&ctx, "DUT"};
   std::mt19937 gen{std::random_device{}()};
   std::uniform_int_distribution<int> distrib{-RAND_BOUND, RAND_BOUND};
 
-  void TearDown() override { dut.final(); }
+  void TearDown() override { 
+    dut.final(); 
+  }
 
   void check(int32_t a, int32_t b) {
     int32_t expected = ref_mul(a, b);
@@ -39,15 +41,15 @@ protected:
   }
 };
 
-TEST_F(FixedPointMulTest, ZeroTimesZero)     { check(0, 0); }
-TEST_F(FixedPointMulTest, ZeroTimesRandom)   { check(0, distrib(gen)); }
-TEST_F(FixedPointMulTest, RandomTimesZero)   { check(distrib(gen), 0); }
-TEST_F(FixedPointMulTest, OneTimesRandom)    { check(1 << FRAC_WIDTH, distrib(gen)); }
-TEST_F(FixedPointMulTest, RandomTimesOne)    { check(distrib(gen), 1 << FRAC_WIDTH); }
-TEST_F(FixedPointMulTest, NegOneTimesRandom) { check(-(1 << FRAC_WIDTH), distrib(gen)); }
-TEST_F(FixedPointMulTest, RandomTimesNegOne) { check(distrib(gen), -(1 << FRAC_WIDTH)); }
+TEST_F(FixedPointMulTB, ZeroTimesZero)     { check(0, 0); }
+TEST_F(FixedPointMulTB, ZeroTimesRandom)   { check(0, distrib(gen)); }
+TEST_F(FixedPointMulTB, RandomTimesZero)   { check(distrib(gen), 0); }
+TEST_F(FixedPointMulTB, OneTimesRandom)    { check(1 << FRAC_WIDTH, distrib(gen)); }
+TEST_F(FixedPointMulTB, RandomTimesOne)    { check(distrib(gen), 1 << FRAC_WIDTH); }
+TEST_F(FixedPointMulTB, NegOneTimesRandom) { check(-(1 << FRAC_WIDTH), distrib(gen)); }
+TEST_F(FixedPointMulTB, RandomTimesNegOne) { check(distrib(gen), -(1 << FRAC_WIDTH)); }
 
-TEST_F(FixedPointMulTest, RandomValues) {
+TEST_F(FixedPointMulTB, RandomValues) {
   for (int i = 0; i < NUM_TESTS; i++)
     check(distrib(gen), distrib(gen));
 }

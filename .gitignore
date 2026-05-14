@@ -1,6 +1,10 @@
 /obj_dir
 /.cache
 /build
+/Testing
+/obj_dir
+/.claude
+/.cache
 
 .clangd
 compile_commands.json
